@@ -2,6 +2,8 @@
  ================= 
 Create a song by pressing the squares 📻
 
+![Example](https://i.imgur.com/SzLRyVn.png)
+
 ## 🧰 An excuse to learn:
 - Typescript
 - JS newer syntax (classes and modules)
