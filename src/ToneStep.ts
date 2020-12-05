@@ -1,3 +1,5 @@
+// TODO fix start audio context by user
+
 import * as Tone from 'tone';
 import { createElement } from "./helper";
 
@@ -17,6 +19,7 @@ export default class ToneStep {
     }
 
     // instance properties and methods
+    private contextStarted: boolean
     private instrument: any
     private userNotes: string[]
     private readonly nrows: number
@@ -27,6 +30,7 @@ export default class ToneStep {
 
     constructor(ncols: number = ToneStep.defaultNotes.length, nrows: number = ToneStep.defaultNotes.length, notes: string[] = ToneStep.defaultNotes) {
 
+        this.contextStarted = false
         this.instrument = this.createSampleInstrument()
         this.userNotes = notes
         this.ncols = ncols
@@ -55,7 +59,7 @@ export default class ToneStep {
         return synth
     }
 
-    private createSampleInstrument(): Tone.Sampler |  Tone.PolySynth<Tone.Synth<Tone.SynthOptions>>{
+    private createSampleInstrument(): Tone.Sampler | Tone.PolySynth<Tone.Synth<Tone.SynthOptions>> {
         // let sampler = new Tone.Sampler(            
         //     {
         //     urls: {
@@ -87,7 +91,7 @@ export default class ToneStep {
         //     release: 0.1,
         //     baseUrl: "https://tonejs.github.io/audio/casio/",
         // }).toDestination();
-        
+
 
         return sampler
     }
@@ -167,12 +171,11 @@ export default class ToneStep {
             .classList.add('highlighted')
     }
 
-    public async startAudio(): Promise<void> {
-        if (Tone.Transport.state !== 'started') {
-            await Tone.loaded()
-            await Tone.start()
-            console.log('Audio context started')
-        }
+    public async startAudioContext(): Promise<void> {
+        // await Tone.loaded()
+        await Tone.start()
+        this.contextStarted = true
+        console.log('Audio context started')
     }
 
     private createUi(): HTMLElement {
@@ -250,7 +253,13 @@ export default class ToneStep {
     }
 
     private togglePlayPause(): void {
-        Tone.Transport.toggle()
+        if (!this.contextStarted) {
+            this.startAudioContext()
+            this.startScheduleRepeat()
+            Tone.Transport.start()            
+        } else {
+            Tone.Transport.toggle()
+        }
     }
 
     private toggleMatrixCell(e: Event): void {

@@ -24,4 +24,3 @@ export const createElement = (
     }
     return element
 }
-
