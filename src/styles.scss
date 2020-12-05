@@ -1,0 +1,166 @@
+$rows: 14;
+$cols: $rows;
+
+$noteCellSize: 30px;
+$noteGap: 8px;
+
+$contentWrapperWidth: $cols * ($noteCellSize + $noteGap);
+$contentWrapperHeight: $rows * ($noteCellSize + $noteGap);
+
+$buttonSize: 3em;
+$menuSpacer: 5px;
+$menuHeight: $buttonSize + 2em;
+
+$bg:#2d2d2d;
+$font-color: white;
+$note-bg: #256c61b3;
+$note-high:  #6eb7ab;
+$col-high: #5ab9aab3;
+$button-bg:  rgb(0,58,48);
+
+
+@mixin fitIntoParent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+ }
+
+ @mixin flexCentered {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+ }
+
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  min-height: 99vh;
+  width: 100%;
+  min-width: 99vw;
+}
+
+input[type='checkbox'], button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+body {
+  @include flexCentered;
+  flex-direction: column;
+  background-color: $bg;
+}
+
+h1 {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: 2.5em;
+  letter-spacing: 0.2em;
+  color: $font-color;
+  margin-bottom: 1em;
+  text-shadow: 3px 3px 0 #416c65;
+}
+
+.menuInput {
+  background-color: transparent;
+  border: 0;
+  font-size: $buttonSize;
+  transition: transform 50ms;
+
+  &:active {
+    transform: translateY($buttonSize / 10);
+  }
+}
+
+section {
+  // width: calc( var(--noteCellWidth) * var(--cols) );
+  // height: calc( (var(--noteCellHeight) * var(--rows)) + var(--menuInputHeight) );
+  display: grid;
+  grid-template-areas: 
+  "menu"
+  "wrapper";
+  grid-template-rows: $menuHeight $contentWrapperHeight;
+  gap: 1em;
+}
+
+#menuWrapper {
+  grid-area: menu;
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+}
+
+#contentWrapper {
+  grid-area: wrapper;
+  width: $contentWrapperWidth; // or 100%
+  position: relative;
+}
+
+#columnsWrapper {
+  @include fitIntoParent;
+  display: grid;
+  grid-template-columns: repeat($cols, $noteCellSize);
+  z-index: -20;
+  gap: $noteGap;
+  justify-content: center;
+
+  article {
+    background-color: transparent;
+    border-radius: 0.2em;
+    transition: box-shadow 200ms cubic-bezier(.39,.58,.57,1);
+    box-shadow: 0 0 0 0 transparent;
+
+    &.highlighted {
+      box-shadow: 0 0 9px 5px $col-high;
+    }
+  }
+}
+
+#noteCellsWrapper {
+  @include fitIntoParent;
+  display: grid;
+  grid-template-columns: repeat($cols, $noteCellSize);
+  gap: $noteGap;
+  justify-content: center;
+  z-index: 20;
+  background-color: transparent;  
+}
+
+.noteCell {
+  background-color: $note-bg;
+  border-radius: 0.2em;
+  box-shadow: 0 0 0 transparent;
+  transition: all 100ms;
+
+  &.active {
+    box-shadow: 0 0 10px $note-high;
+    background-color: $note-high;    
+  }
+}
+
+@media (max-width: 414px) {
+
+  .menuInput {
+    font-size: 2.5em;
+  }
+  
+  #contentWrapper {
+    width: 99vw;
+  }
+
+  #columnsWrapper, #noteCellsWrapper {
+    gap: 0;    
+    grid-template-columns: repeat($cols, 1fr);
+  }
+
+  .noteCell {
+    border-radius: 0;
+  }
+}

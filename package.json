@@ -1,0 +1,42 @@
+{
+  "name": "",
+  "version": "",
+  "description": "",
+  "main": "dist/toneStep.bundle.js",
+  "types": "dist/src/index.d.ts",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "start": "webpack serve --config ./webpack.dev.js",
+    "build": "cross-env NODE_ENV=production webpack --config ./webpack.prod.js"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.7.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^6.2.1",
+    "cross-env": "^7.0.2",
+    "css-loader": "^5.0.0",
+    "css-minimizer-webpack-plugin": "^1.1.5",
+    "html-webpack-plugin": "^5.0.0-alpha.7",
+    "mini-css-extract-plugin": "^1.0.0",
+    "node-sass": "^4.14.1",
+    "postcss-loader": "^4.0.4",
+    "postcss-preset-env": "^6.7.0",
+    "sass-loader": "^10.0.3",
+    "style-loader": "^2.0.0",
+    "ts-loader": "^8.0.11",
+    "typescript": "^4.1.2",
+    "webpack": "^5.1.3",
+    "webpack-cli": "^4.0.0",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "repository": {
+    "type": "",
+    "url": ""
+  },
+  "dependencies": {
+    "tone": "^14.7.58"
+  }
+}
